@@ -85,9 +85,11 @@ function App() {
       const fadeEnd = heroHeight * 0.96
       const progress = Math.min(Math.max((scrolledHero - fadeStart) / (fadeEnd - fadeStart), 0), 1)
       const channel = Math.round(255 - 238 * progress)
+      const glassOpacity = 0.14 + 0.58 * progress
 
       header.style.setProperty('--header-ink-progress', progress.toFixed(3))
       header.style.setProperty('--header-color', `rgb(${channel} ${channel} ${channel})`)
+      header.style.setProperty('--header-glass-opacity', glassOpacity.toFixed(3))
     }
 
     const requestUpdate = () => {
