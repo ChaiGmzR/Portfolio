@@ -24,7 +24,7 @@ export default function WaveBanner() {
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches // Check if the user prefers reduced motion
     const lineCount = 34 // Number of wave lines to draw
-    const strokeColor = '227, 223, 217' // RGB color for the wave lines
+    const strokeColor = '255, 255, 255' // RGB color for the wave lines
     const speed = prefersReducedMotion ? 0 : 0.0065 // Speed of the wave animation (set to 0 if reduced motion is preferred)
 
     const resize = () => {
