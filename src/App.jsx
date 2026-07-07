@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import WaveBanner from './components/WaveBanner';
 
@@ -62,8 +62,31 @@ const skills = [
 function App() {
   const siteHeaderRef = useRef(null)
   const skillsMarqueeRef = useRef(null)
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
 
   const skillLoop = [...skills, ...skills, ...skills]
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsMobileNavOpen(false)
+      }
+    }
+
+    const handleResize = () => {
+      if (window.innerWidth > 560) {
+        setIsMobileNavOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   useEffect(() => {
     const header = siteHeaderRef.current
@@ -216,10 +239,26 @@ function App() {
         <a className="brand" href="#inicio">
           Jesús Gámez | Web Developer
         </a>
-        <nav aria-label="Navegación principal">
-          <a href="#acerca">Acerca de</a>
-          <a href="#proyectos">Proyectos</a>
-          <a href="#contacto">Contacto</a>
+        <button
+          className="menu-toggle"
+          type="button"
+          aria-controls="site-navigation"
+          aria-expanded={isMobileNavOpen}
+          aria-label={isMobileNavOpen ? 'Cerrar navegación' : 'Abrir navegación'}
+          onClick={() => setIsMobileNavOpen((current) => !current)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <nav
+          id="site-navigation"
+          className={isMobileNavOpen ? 'is-open' : ''}
+          aria-label="Navegación principal"
+        >
+          <a href="#acerca" onClick={() => setIsMobileNavOpen(false)}>Acerca de</a>
+          <a href="#proyectos" onClick={() => setIsMobileNavOpen(false)}>Proyectos</a>
+          <a href="#contacto" onClick={() => setIsMobileNavOpen(false)}>Contacto</a>
         </nav>
       </header>
 
@@ -274,7 +313,6 @@ function App() {
           <section className="projects-section" id="proyectos">
             <div className="section-title">
               <span>Proyectos</span>
-              <h2>Casos practicos de uso</h2>
             </div>
 
             <div className="project-list">
@@ -306,16 +344,16 @@ function App() {
               <div className="field-grid">
                 <label>
                   Nombre
-                  <input name="name" type="text" required />
+                  <input name="name" type="text" placeholder="Tu nombre completo" required />
                 </label>
                 <label>
                   Correo
-                  <input name="email" type="email" required />
+                  <input name="email" type="email" placeholder="correo@ejemplo.com" required />
                 </label>
               </div>
               <label>
                 Mensaje
-                <textarea name="message" rows="5" required />
+                <textarea name="message" rows="5" placeholder="Cuéntame sobre tu proyecto" required />
               </label>
               <button type="submit">Enviar</button>
             </form>
@@ -324,13 +362,15 @@ function App() {
       </main>
 
       <footer className="site-footer">
-        <p>Jesús Gámez | Web Developer</p>
+        <p><a href="#inicio" >
+          Jesús Gámez | Web Developer
+        </a></p>
         <div>
           <a href="https://github.com/ChaiGmzR" target="_blank" rel="noreferrer">
-            GitHub
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" alt="GitHub" className="social-icon" />
           </a>
-          <a href="https://www.linkedin.com/in/jesus-a-gamez" target="_blank" rel="noreferrer">
-            LinkedIn
+          <a href="https://www.linkedin.com/in/jesus-gmz" target="_blank" rel="noreferrer">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linkedin/linkedin-original.svg" alt="LinkedIn" className="social-icon" />
           </a>
         </div>
       </footer>
